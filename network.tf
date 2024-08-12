@@ -6,74 +6,18 @@ resource "aws_vpc" "vpc" {
   }
 }
 
+#criar multiplas subnets dentro da vpc 
+
 resource "aws_subnet" "subnet" {
+  count = 3
+
   vpc_id     = aws_vpc.vpc.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "10.0.${count.index}.0/24" #pega o index do count
 
   tags = {
-    Name = "subnet-terraform"
+    Name = "subnet-terraform-${count.index}"
   }
 }
-
-resource "aws_internet_gateway" "gateway" {
-  vpc_id = aws_vpc.vpc.id
-
-  tags = {
-    Name = "internet-gateway-terraform"
-  }
-
-}
-
-resource "aws_route_table" "route-table-public" {
-  vpc_id = aws_vpc.vpc.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.gateway.id
-  }
-
-
-  tags = {
-    Name = "route-table-terraform"
-  }
-
-}
-
-resource "aws_route_table_association" "rta" {
-  subnet_id      = aws_subnet.subnet.id
-  route_table_id = aws_route_table.route-table-public.id
-}
-
-resource "aws_security_group" "secuity-group" {
-  name        = "security-gorup-terraform"
-  description = "permite trafego na porta 22"
-  vpc_id      = aws_vpc.vpc.id
-
-  ingress {
-    description = "SSH"
-    from_port   = 22
-    protocol    = "tcp"
-    to_port     = 22
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    description = " "
-    from_port   = 0
-    protocol    = "-1"
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-
-  }
-
-  tags = {
-    Name = "security-group-terraform"
-  }
-}
-
-
-
-
 
 
 

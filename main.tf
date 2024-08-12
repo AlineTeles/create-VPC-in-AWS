@@ -11,7 +11,7 @@ terraform {
 
   backend "s3" {
     bucket = "aline886e3f588"
-    key    = "aws-vpc/terraform.tfstate"
+    key    = "count-aws-vpc/terraform.tfstate"
     region = "us-east-2"
 
   }

@@ -1,9 +1,14 @@
-output "subnet_id" {
+output "subnet_0_id" {
   description = "ID da subnet da aws"
-  value       = aws_subnet.subnet.id
+  value       = aws_subnet.subnet[0].id
 }
 
-output "security-group-id" {
-  description = "ID da security group"
-  value       = aws_security_group.security-group.id
+output "subnet_1_id" {
+  description = "ID da subnet da aws"
+  value       = aws_subnet.subnet[1].id
+}
+
+output "subnet_2_id" {
+  description = "ID da subnet da aws"
+  value       = aws_subnet.subnet[2].id
 }
